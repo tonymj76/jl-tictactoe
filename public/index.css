@@ -1,5 +1,7 @@
  body{
-     background-color: #03a9f4;
+     /* background-color: #03a9f4; */
+     background: rgb(238, 174, 202);
+     background: radial-gradient(circle, rgba(238, 174, 202, 1) 0%, rgba(233, 211, 148, 1) 100%);
  }
  .board {
      margin: auto;

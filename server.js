@@ -1,10 +1,11 @@
-const http = require("http")
-const express = require("express");
-const app = express();
-const socketIo = require("socket.io");
-const fs = require("fs");
+const express = require("express"),
+            http = require("http"),
+             socketIo = require("socket.io"),
+             fs = require("fs");
 
-const server = http.Server(app).listen(process.env.PORT || 5000);
+
+const app = express();
+const server = http.createServer(app);
 const io = socketIo(server);
 const clients = {};
 
@@ -74,7 +75,8 @@ function join(socket) {
     players[socket.id] = {
         opponent: unmatched,
         symbol: "X",
-        socket: socket
+        socket: socket,
+        // username: socket.id
     };
 
     // If 'unmatched' is defined it contains the socket.id of the player who was waiting for an opponent
@@ -83,6 +85,7 @@ function join(socket) {
         players[socket.id].symbol = "O";
         players[unmatched].opponent = socket.id;
         unmatched = null;
+        // username[socket.id].username = socket.id;
     } else { //If 'unmatched' is not define it means the player (current socket) is waiting for an opponent (player #1)
         unmatched = socket.id;
     }
@@ -94,3 +97,8 @@ function opponentOf(socket) {
     }
     return players[players[socket.id].opponent].socket;
 }
+
+//listen on server
+server.listen(process.env.PORT || 5000,  ()=>{
+    console.log("Server running on PORT:5000")
+});

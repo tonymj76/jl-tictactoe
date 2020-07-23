@@ -99,11 +99,11 @@
                 // $("#message").text("You lost.");
                 alert("You Lost!")
             } else {
-                // Swal.fire(
-                //     'Congratulations!',
-                //     'You Won!',
-                //     'success'
-                // )
+                swal(
+                    'Congratulations!',
+                    'You Won!',
+                    'success'
+                )
                 alert("You Won")
             }
 
@@ -122,7 +122,7 @@
     // Bind on event for opponent leaving the game
     socket.on("opponent.left", function () {
         // $("#message").text("Your opponent left the game.");
-        alert("Opponent Left!")
+        alert("Opponent Left The Game!")
         $(".board button").attr("disabled", true);
     });
 
@@ -137,7 +137,7 @@
     var sound = new Howl({
       src: ["/theme_01.mp3"],
       autoplay: 1,
-      repeat: 1
+      loop: true
     });
     sound.play();
     var clicked = new Howl({
