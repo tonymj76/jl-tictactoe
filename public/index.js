@@ -66,6 +66,9 @@
         } else { // Enable it otherwise
             $("#message").text("Your turn.");
             $(".board button").removeAttr("disabled");
+            const newMove = Number($("#moves").text()) + 1;
+            console.log("newMove:", newMove);
+            $(".moves #moves").text(newMove);
         }
     }
 
@@ -97,14 +100,19 @@
         } else { // Else show win/lose message
             if (myTurn) {
                 // $("#message").text("You lost.");
-                alert("You Lost!")
+                const newLoss = Number($("#losses").text()) + 1;
+                $("#losses").text(newLoss);
+                alert("You Lost!");
             } else {
-                swal(
-                    'Congratulations!',
-                    'You Won!',
-                    'success'
-                )
-                alert("You Won")
+                // swal(
+                //     'Congratulations!',
+                //     'You Won!',
+                //     'success'
+                // )
+                // $("button")
+                const newWin = Number($("#wins").text()) + 1;
+                $("#wins").text(newWin);
+                alert("You Won!")
             }
 
             $(".board button").attr("disabled", true); // Disable board
@@ -140,6 +148,18 @@
       loop: true
     });
     sound.play();
+    var isPlaying = 1;
+    console.log(isPlaying)
+    $("#toggle_sound").on("click", ()=>{
+        if(isPlaying == 1){
+            isPlaying = 0;
+            sound.stop();
+            console.log(isPlaying);
+        }else{
+            isPlaying = 1;
+            sound.play();
+        }
+    });
     var clicked = new Howl({
       src: [
         "/eatpellet.ogg",
