@@ -4,7 +4,7 @@ const app = express();
 const socketIo = require("socket.io");
 const fs = require("fs");
 
-const server = http.Server(app).listen(5000);
+const server = http.Server(app).listen(process.env.PORT || 5000);
 const io = socketIo(server);
 const clients = {};
 
