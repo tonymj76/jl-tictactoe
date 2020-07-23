@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game</title>
+    <link rel="stylesheet" href="/sweetalert2/dist/sweetalert2.js">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.0/howler.core.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <!-- <link rel="stylesheet" href="sweetalert2.min.css"> -->
+    <link rel="stylesheet" href="/sweetalert2/dist/sweetalert2.css">
+    <link rel="stylesheet" href="/index.css">
+</head>
+<body>
+    <div id="message">Waiting for an opponent...</div>
+    <div><a href="" id="invite">share Invite</a></div>
+
+    <div class="board">
+        <button id="r0c0" class="left"></button> 
+        <button id="r0c1" class="mid"></button> 
+        <button id="r0c2" class="end"></button>
+        <button id="r1c0" class="left"></button> 
+        <button id="r1c1" class="mid"></button> 
+        <button id="r1c2" class="end"></button>
+        <button id="r2c0" class="left"></button> 
+        <button id="r2c1" class="mid"></button> 
+        <button id="r2c2" class="end"></button>
+    </div>
+
+    <script src="/index.js"></script>
+    <script>
+        $("#invite").attr("href", window.location.origin);
+    </script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+ body{
+     background-color: #03a9f4;
+ }
+ .board {
+     margin: auto;
+     width: 490px;
+ }
+
+ .board button {
+     height: 150px;
+     width: 150px;
+     float: left;
+     margin: 5px;
+     font-size: 3em;
+ }
+
+ #message {
+     font-size: 3rem;
+     margin-bottom: 1rem;
+     text-align: center;
+ }
+ .left{
+     border: none;
+     border-right: 2px solid green;
+     border-top: 2px solid green;
+     border-bottom: 2px solid green;
+ }
+ .mid{
+     border: none;
+     border-left: 2px solid green;
+     border-right: 2px solid green;
+ }
+ .end{
+     border: none;
+     border-left: 2px solid green;
+     border-top: 2px solid green;
+     border-bottom: 2px solid green;
+ }
