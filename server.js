@@ -40,11 +40,15 @@ io.on("connection", function (socket) {
 
     if (opponentOf(socket)) { // If the current player has an opponent the game can begin
         socket.emit("game.begin", { // Send the game.begin event to the player
-            symbol: players[socket.id].symbol
+            symbol: players[socket.id].symbol,
+            username1: players[socket.id].username,
+            username2: players[opponentOf(socket).id].username
         });
 
         opponentOf(socket).emit("game.begin", { // Send the game.begin event to the opponent
-            symbol: players[opponentOf(socket).id].symbol
+            symbol: players[opponentOf(socket).id].symbol,
+            username: players[socket.id].username,
+            // username: players[opponentOf(socket).id].username
         });
     }
 
@@ -76,7 +80,7 @@ function join(socket) {
         opponent: unmatched,
         symbol: "X",
         socket: socket,
-        // username: socket.id
+        username: socket.id
     };
 
     // If 'unmatched' is defined it contains the socket.id of the player who was waiting for an opponent

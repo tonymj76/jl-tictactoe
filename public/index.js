@@ -19,6 +19,9 @@
     var myTurn = true;
     var symbol;
 
+    console.log(symbol)
+    $("#username").text(symbol);
+
     function getBoardState() {
         var obj = {};
 
@@ -64,7 +67,7 @@
             $("#message").text("Your opponent's turn");
             $(".board button").attr("disabled", true);
         } else { // Enable it otherwise
-            $("#message").text("Your turn.");
+            $("#message").text("Your turn");
             $(".board button").removeAttr("disabled");
             const newMove = Number($("#moves").text()) + 1;
             console.log("newMove:", newMove);
@@ -94,6 +97,7 @@
         // If the symbol of the last move was the same as the current player
         // means that now is opponent's turn
         myTurn = data.symbol !== symbol;
+        console.log("Username: ",  data.username)
 
         if (!isGameOver()) { // If game isn't over show who's turn is this
             renderTurnMessage();
@@ -124,6 +128,9 @@
     socket.on("game.begin", function (data) {
         symbol = data.symbol; // The server is assigning the symbol
         myTurn = symbol === "X"; // 'X' starts first
+        console.log(data);
+        window.localStorage.setItem("usernameX",data.username1);
+        window.localStorage.setItem("usernameO",data.username2);
         renderTurnMessage();
     });
 
@@ -141,7 +148,7 @@
     });
 
     //sounds
-    //them sound
+    //theme sound
     var sound = new Howl({
       src: ["/theme_01.mp3"],
       autoplay: 1,
@@ -149,17 +156,16 @@
     });
     sound.play();
     var isPlaying = 1;
-    console.log(isPlaying)
     $("#toggle_sound").on("click", ()=>{
         if(isPlaying == 1){
             isPlaying = 0;
             sound.stop();
-            console.log(isPlaying);
         }else{
             isPlaying = 1;
             sound.play();
         }
     });
+    //click sound
     var clicked = new Howl({
       src: [
         "/eatpellet.ogg",
@@ -167,5 +173,6 @@
     });
     $("button").on("click", ()=>{
         clicked.play();
-    })
+    });
+    $("#username").text(window.localStorage.getItem("usernameX"))
 })();
