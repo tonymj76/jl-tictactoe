@@ -37,13 +37,17 @@
                     <div class="content">
                         <input type="text" class="message" id="chat-message">
                         <input type="submit" class="submit" id="send" value="send">
-                        <span id="love">💓</span>
-                        <span id="happy">😀</span>
-                        <span id="eyes">👀</span>
-                    </div>
+                       <span id="love" class="reaction">💓</span>
+                       <span id="happy" class="reaction">😀</span>
+                       <span id="eyes" class="reaction">👀</span>
                 </div>
             </div>
     </div>
+    <style>
+        .reaction{
+        font-size: 2em;
+        }
+    </style>
     <script src="/view.js"></script>
     <script>
         $("#invite").text(window.location.href);

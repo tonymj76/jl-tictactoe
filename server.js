@@ -1,4 +1,6 @@
 const express = require("express"),
+            database = require("./config/database")(),
+            User = require("./models/user"),
             http = require("http"),
              socketIo = require("socket.io"),
              fs = require("fs"),
@@ -19,10 +21,25 @@ app.get("/",(req, res) => {
     res.sendFile("home.html", { root: __dirname })
 });
 
-app.get("/game", getUsername, (req, res) => {
+app.get("/game", getUsername, async (req, res) => {
     // const stream = fs.createReadStream(__dirname + "/index.html");
     // stream.pipe(res);
-    res.render("index.ejs", { data: req.data });
+    const username = req.data.player;
+    const user = await User.findOne({ username });
+    if(!user){
+        const newUser = new User({
+            username: username
+        });
+        User.create(newUser).catch(err =>{
+            return res.redirect("back");
+        }).then(success =>{
+            return res.render("index.ejs", {
+                data: success
+            });
+        });
+    }else{
+        return res.render("index.ejs", { data: user });
+    }
 });
 
 app.get("/view", (req, res) => {
@@ -80,9 +97,22 @@ io.of("/game").on("connection", function (socket) {
             socket.emit("move.made", data); // Emit for the player who made the move
             opponentOf(socket).emit("move.made", data); // Emit for the opponent
             viewers.forEach(socket => {
-                socket.emit("move.made", data)
+                socket.emit("move.made", data);
             });
         });
+
+        //handle win and losses update
+        socket.on("updateWin", (data)=>{
+            User.findOneAndUpdate({ username: data.username }, { wins:Number( data.wins) },{ useFindAndModify:false });
+            io.of("/game").emit("updateWin", data);
+        });
+        //update user's loss in db
+        socket.on("updateLoss", (data)=>{
+            User.findOneAndUpdate({ username: data.username },{ losses: Number(data.losses) },{ useFindAndModify:false });
+             io.of("/game").emit("updateLoss", data);
+        });
+
+        //enable spctators to send reactions
         var spectators = io.of("/view")
 
         //event to send happy reaction

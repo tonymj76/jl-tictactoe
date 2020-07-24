@@ -1,17 +1,4 @@
 (function(){
-    // const socket = io();
-    // const player1User = $("#create #username");
-    // const player2User = $("#join #username");
-    // const roomId = $("#join #room_id");
-
-    // socket.on("join", (data)=>{
-    //     $("#join").text(data)
-    // });
-    // socket.on("disconnect", (data)=>{
-    //     $("#left").text(data)
-    // });
-
-
     /////////////////////////////////////////////////
     var url = window.location.origin + "/game";
     let socket = io(url);
@@ -107,16 +94,14 @@
                 const newLoss = Number($("#losses").text()) + 1;
                 $("#losses").text(newLoss);
                 alert("You Lost!");
+                const username = $("#username").text();
+                socket.emit("updateLoss", { username:  username, losses: newLoss});
             } else {
-                // swal(
-                //     'Congratulations!',
-                //     'You Won!',
-                //     'success'
-                // )
-                // $("button")
                 const newWin = Number($("#wins").text()) + 1;
                 $("#wins").text(newWin);
-                alert("You Won!")
+                alert("You Won!");
+                const username = $("#username").text();
+                socket.emit("updateWin", { username:  username, wins: newWin});
             }
 
             $(".board button").attr("disabled", true); // Disable board
@@ -147,7 +132,7 @@
         $(".board> button").on("click", makeMove);
     });
 
-    //sounds
+    //sounds configurations
     //theme sound
     var sound = new Howl({
       src: ["/theme_01.mp3"],
@@ -174,7 +159,6 @@
     $("button").on("click", ()=>{
         clicked.play();
     });
-    // $("#username").text(window.localStorage.getItem("usernameX"));
 
     //communication events
     $("#happy").on("click", ()=>{
@@ -208,6 +192,11 @@
 
     socket.on("message", (msg)=>{
         $(".output").append(`<p>${msg}</p>`);
+    });
+    $("#chat-message").on("change keyup paste", ()=>{
+        if($(this).val().length = 0){
+            $(".content input[type=submit]").attr("disabled", true);
+        }
     });
 
 })();
