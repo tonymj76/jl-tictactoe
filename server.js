@@ -50,6 +50,7 @@ app.get("/view", (req, res) => {
 var players = {}; // opponent: scoket.id of the opponent, symbol = "X" | "O", socket: player's socket
 var unmatched;
 var viewers = [];
+var leaderBoard = [];
 
 
 // When a client connects
@@ -103,13 +104,23 @@ io.of("/game").on("connection", function (socket) {
 
         //handle win and losses update
         socket.on("updateWin", (data)=>{
-            User.findOneAndUpdate({ username: data.username }, { wins:Number( data.wins) },{ useFindAndModify:false });
+            User.findOneAndUpdate({ username: data.username }, { wins:Number( data.wins) },{ useFindAndModify:true });
             io.of("/game").emit("updateWin", data);
         });
         //update user's loss in db
         socket.on("updateLoss", (data)=>{
-            User.findOneAndUpdate({ username: data.username },{ losses: Number(data.losses) },{ useFindAndModify:false });
+            User.findOneAndUpdate({ username: data.username },{ losses: Number(data.losses) },{ useFindAndModify:true });
              io.of("/game").emit("updateLoss", data);
+        });
+
+        //get all users and calculate leaderboard
+        socket.on("getLeaderBoard", async(data)=>{
+            leaderBoard = [];
+            const allUsers = await User.find({});
+            allUsers.forEach((user)=>{
+                leaderBoard.push({username: user.username, wins: user.wins  });
+            });
+            io.of("/game").emit("getLeaderBoard", leaderBoard);
         });
 
         //enable spctators to send reactions
