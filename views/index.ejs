@@ -15,6 +15,7 @@
 <body>
     <div id="message">Waiting for Player 2</div>
     <div class="top-board">
+        <p class="leaderboard"><span class="trigger badge p-2">Leaderboard</span></p>
         <p class="replay"><a href="" class="badge badge-warning p-2" id="replay" title="Try reconnecting with user">Connect</a></p>
         <p class="username"><strong class="badge badge-primary badge-pill p-2">Username: </strong> <span
                 id="username"><%= data.username %></span></p>
@@ -28,7 +29,14 @@
     <div>Invite link: <a href="" style="text-decoration: none;cursor: text;"><small id="invite"
                 style="color: #ff6883;font-weight: bold;"></small></a>
     </div>
-
+    <div class="leader-board">
+        <p class="loader"></p>
+        <div class="list">
+            <ul id="leads">
+                <big>Leader Board</big>
+            </ul>
+        </div>
+    </div>
     <div class="containerr">
         <div class="board">
             <button id="r0c0" class="left"></button>

@@ -199,4 +199,37 @@
         }
     });
 
+    //leaderboard
+    $(".trigger").on("click", ()=>{
+        $(".list #leads").empty();
+        if ($(".leader-board .loader").hasClass("spinner-border")){
+            $(".leader-board .loader").removeClass("spinner-border")
+        }
+        else{
+            $(".leader-board .loader").addClass("spinner-border")
+        }
+        $(".leader-board").toggleClass("open");
+        socket.emit("getLeaderBoard", "leaderboard");
+    });
+    socket.on("getLeaderBoard", async (data)=>{
+        var leaders = [];
+        var bar = 0;
+        var size = 0;
+        await data.forEach(user=>{
+            if (bar <= user.wins) {
+                leaders.push(user);
+                bar = user.wins;
+                size +=1;
+            };
+        });
+        for (var i = size - 1; i >= 0; i--) {
+            if ($(".leader-board").hasClass("open")) {
+                $(".list #leads").append(`<li style="position: relative;"><strong>${leaders[i].username}</strong> - ${leaders[i].wins}</li>`)
+            };
+        }
+        // await leaders.forEach((lead) => {
+            
+        // });
+        console.log(leaders);
+    });
 })();
