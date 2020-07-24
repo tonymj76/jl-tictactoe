@@ -139,7 +139,7 @@ io.of("/game").on("connection", function (socket) {
 
         //event to send message
         socket.on("message", (msg)=>{
-            socket.emit("message", msg);
+            io.of("/game").emit("message", msg);
         });
 
         // Event to inform player that the opponent left
