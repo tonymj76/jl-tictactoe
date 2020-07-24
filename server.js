@@ -21,8 +21,14 @@ app.get("/game", (req, res) => {
     stream.pipe(res);
 });
 
+app.get("/view", (req, res) => {
+    const stream = fs.createReadStream(__dirname + "/view.html");
+    stream.pipe(res);
+});
+
 var players = {}; // opponent: scoket.id of the opponent, symbol = "X" | "O", socket: player's socket
 var unmatched;
+var viewers = []
 
 
 // When a client connects
@@ -36,42 +42,50 @@ io.on("connection", function (socket) {
         socket.broadcast.emit("clientdisconnect", id);
     });
 
-    join(socket); // Fill 'players' data structure
+    if(socket.handshake.headers.referer === "http://localhost:5000/view") {
+        viewers.push(socket)
+    } else {
 
-    if (opponentOf(socket)) { // If the current player has an opponent the game can begin
-        socket.emit("game.begin", { // Send the game.begin event to the player
-            symbol: players[socket.id].symbol,
-            username1: players[socket.id].username,
-            username2: players[opponentOf(socket).id].username
+        join(socket); // Fill 'players' data structure
+
+        if (opponentOf(socket)) { // If the current player has an opponent the game can begin
+            socket.emit("game.begin", { // Send the game.begin event to the player
+                symbol: players[socket.id].symbol,
+                username1: players[socket.id].username,
+                username2: players[opponentOf(socket).id].username
+            });
+
+            opponentOf(socket).emit("game.begin", { // Send the game.begin event to the opponent
+                symbol: players[opponentOf(socket).id].symbol,
+                username: players[socket.id].username,
+                // username: players[opponentOf(socket).id].username
+            });
+        }
+
+
+        // Event for when any player makes a move
+        socket.on("make.move", function (data) {
+            if (!opponentOf(socket)) {
+                // This shouldn't be possible since if a player doens't have an opponent the game board is disabled
+                return;
+            }
+
+            // Validation of the moves can be done here
+
+            socket.emit("move.made", data); // Emit for the player who made the move
+            opponentOf(socket).emit("move.made", data); // Emit for the opponent
+            viewers.forEach(socket => {
+                socket.emit("move.made", data)
+            })
         });
 
-        opponentOf(socket).emit("game.begin", { // Send the game.begin event to the opponent
-            symbol: players[opponentOf(socket).id].symbol,
-            username: players[socket.id].username,
-            // username: players[opponentOf(socket).id].username
+        // Event to inform player that the opponent left
+        socket.on("disconnect", function () {
+            if (opponentOf(socket)) {
+                opponentOf(socket).emit("opponent.left");
+            }
         });
     }
-
-
-    // Event for when any player makes a move
-    socket.on("make.move", function (data) {
-        if (!opponentOf(socket)) {
-            // This shouldn't be possible since if a player doens't have an opponent the game board is disabled
-            return;
-        }
-
-        // Validation of the moves can be done here
-
-        socket.emit("move.made", data); // Emit for the player who made the move
-        opponentOf(socket).emit("move.made", data); // Emit for the opponent
-    });
-
-    // Event to inform player that the opponent left
-    socket.on("disconnect", function () {
-        if (opponentOf(socket)) {
-            opponentOf(socket).emit("opponent.left");
-        }
-    });
 });
 
 
