@@ -13,8 +13,8 @@
 
 
     /////////////////////////////////////////////////
-    const url = window.location.origin;
-    let socket = io.connect(url);
+    var url = window.location.origin + "/game";
+    let socket = io(url);
 
     var myTurn = true;
     var symbol;
@@ -174,5 +174,40 @@
     $("button").on("click", ()=>{
         clicked.play();
     });
-    $("#username").text(window.localStorage.getItem("usernameX"))
+    $("#username").text(window.localStorage.getItem("usernameX"));
+
+    //communication events
+    $("#happy").on("click", ()=>{
+        socket.emit("happy", "😀");
+    });
+    socket.on("happy", (data)=>{
+        $(".output").append(`<p>${data}</p>`);
+    });
+    //eyes reaction
+    $("#eyes").on("click", ()=>{
+        socket.emit("eyes", "👀");
+    });
+    socket.on("eyes", (data)=>{
+        $(".output").append(`<p>${data}</p>`);
+    });
+
+    //love reaction
+    $("#love").on("click", ()=>{
+        socket.emit("love", "💓");
+    });
+    socket.on("love", (data)=>{
+        $(".output").append(`<p>${data}</p>`);
+    });
+
+    //send a message
+    $("#send").on("click", ()=>{
+        var msg = $("#chat-message").val();
+        socket.emit("message", msg);
+         $("#chat-message").val(" ")
+    });
+
+    socket.on("message", (msg)=>{
+        $(".output").append(`<p>${msg}</p>`);
+    });
+
 })();

@@ -15,31 +15,52 @@
 <body>
     <div id="message">Waiting for Player 2</div>
     <div class="top-board">
-        <p class="username"><strong class="badge badge-primary badge-pill p-2">Username: </strong> <span id="username">Player</span></p>
-        <p class="wins"><strong class="badge badge-pill badge-success p-2">Wins: </strong> <span id="wins">0</span></p>
-        <p class="losses"><strong class="badge badge-danger badge-pill p-2">Losses:</strong> <span id="losses">0</span></p>
-        <p class="moves"><strong class="badge badge-secondary badge-pill p-2">Moves:</strong> <span id="moves">0</span></p>
+        <p class="username"><strong class="badge badge-primary badge-pill p-2">Username: </strong> <span
+                id="username">Player</span></p>
+        <p class="wins"><strong class="badge badge-pill badge-success p-2">Wins: </strong> <span id="wins">0</span>
+        </p>
+        <p class="losses"><strong class="badge badge-danger badge-pill p-2">Losses:</strong> <span id="losses">0</span>
+        </p>
+        <p class="moves"><strong class="badge badge-secondary badge-pill p-2">Moves:</strong> <span id="moves">0</span>
+        </p>
     </div>
-    <div>Invite link: <a href="" style="text-decoration: none;cursor: text;"><small id="invite" style="color: #ff6883;font-weight: bold;"></small></a>
+    <div>Invite link: <a href="" style="text-decoration: none;cursor: text;"><small id="invite"
+                style="color: #ff6883;font-weight: bold;"></small></a>
     </div>
 
-    <div class="board">
-        <button id="r0c0" class="left"></button> 
-        <button id="r0c1" class="mid"></button> 
-        <button id="r0c2" class="end"></button>
-        <button id="r1c0" class="left"></button> 
-        <button id="r1c1" class="mid"></button> 
-        <button id="r1c2" class="end"></button>
-        <button id="r2c0" class="left"></button> 
-        <button id="r2c1" class="mid"></button> 
-        <button id="r2c2" class="end"></button>
-    </div>
-    <div class="controls">
-        <a id="toggle_sound">Toggle Sound</a>
+    <div class="container">
+        <div class="board">
+            <button id="r0c0" class="left"></button>
+            <button id="r0c1" class="mid"></button>
+            <button id="r0c2" class="end"></button>
+            <button id="r1c0" class="left"></button>
+            <button id="r1c1" class="mid"></button>
+            <button id="r1c2" class="end"></button>
+            <button id="r2c0" class="left"></button>
+            <button id="r2c1" class="mid"></button>
+            <button id="r2c2" class="end"></button>
+        </div>
+        <div class="controls">
+            <a id="toggle_sound">Toggle Sound</a>
+        </div>
+        <div class="chat">
+            <div class="chat-window">
+                <div class="output"></div>
+            </div>
+            <div class="message-box">
+                <div class="content">
+                    <input type="text" class="message" id="chat-message">
+                    <input type="submit" class="submit" id="send" value="send">
+                    <span id="love">💓</span>
+                    <span id="happy">😀</span>
+                    <span id="eyes">👀</span>
+                </div>
+            </div>
+        </div>
     </div>
     <script src="/index.js"></script>
     <script>
-        $("#invite").text(window.location.href);
+        $("#invite").text(window.location.origin + "/game");
     </script>
 </body>
 </html>

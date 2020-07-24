@@ -1,20 +1,9 @@
 (function(){
-    // const socket = io();
-    // const player1User = $("#create #username");
-    // const player2User = $("#join #username");
-    // const roomId = $("#join #room_id");
-
-    // socket.on("join", (data)=>{
-    //     $("#join").text(data)
-    // });
-    // socket.on("disconnect", (data)=>{
-    //     $("#left").text(data)
-    // });
-
-
     /////////////////////////////////////////////////
-    const url = window.location.origin;
+    const url = window.location.origin + "/game";
     let socket = io.connect(url);
+    let socket2 = io("/view")
+    myTurn = null
 
     function getBoardState() {
         var obj = {};
@@ -120,8 +109,42 @@
         "/eatpellet.ogg",
       ],
     });
-    $("button").on("click", ()=>{
-        clicked.play();
-    });
-    $("#username").text(window.localStorage.getItem("usernameX"))
+    // $("button").on("click", ()=>{
+    //     clicked.play();
+    // });
+    $("#username").text(window.localStorage.getItem("usernameX"));
+
+     //communication events
+     $("#happy").on("click", () => {
+         socket2.emit("happy", "😀");
+     });
+     socket.on("happy", (data) => {
+         $(".output").append(`<p>${data}</p>`);
+     });
+     //eyes reaction
+     $("#eyes").on("click", () => {
+         socket2.emit("eyes", "👀");
+     });
+     socket.on("eyes", (data) => {
+         $(".output").append(`<p>${data}</p>`);
+     });
+
+     //love reaction
+     $("#love").on("click", () => {
+         socket2.emit("love", "💓");
+     });
+     socket.on("love", (data) => {
+         $(".output").append(`<p>${data}</p>`);
+     });
+
+     //send a message
+     $("#send").on("click", () => {
+         var msg = $("#chat-message").val();
+         socket2.emit("message", msg);
+         $("#chat-message").val(" ")
+     });
+
+     socket.on("message", (msg) => {
+         $(".output").append(`<p>${msg}</p>`);
+     });
 })();

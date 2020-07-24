@@ -1,18 +1,60 @@
  body{
      background: rgb(238, 174, 202);
      background: radial-gradient(circle, rgba(238, 174, 202, 1) 0%, rgba(233, 211, 148, 1) 100%);
+     position: relative;
+     height: 100%;
  }
+ /* .chat-window{
+     height: 200px;
+     position: absolute;
+     bottom: 0;
+     width: 100%;
+     background-color: #f3f3f3;
+ } */
  .board {
      margin: auto;
      width: 490px;
+     display: grid;
+     grid-template-columns: repeat(3, 1fr);
+     grid-template-rows: 150px 150px 150px;
+     justify-content: center;
+     border: none;
  }
-
+ .container{
+     position: relative;
+     height: 100vh !important;
+ }
+ .container .chat{
+    height: 200px;
+    position: absolute;
+    bottom: 15%;
+    width: 100%;
+    background-color: #f3f3f3;
+ }
+ .chat-window{
+    height: 85%;
+     max-height: 90%;
+     overflow: auto;
+ }
+.chat .message-box{
+    background-color: #fff;
+    position: relative !important;
+}
+.message-box .content{
+    /* margin-top: 170px; */
+}
+.controls{
+    width: 100%;
+    margin: 10px auto;
+}
  .board button {
-     height: 150px;
+     /* height: 150px;
      width: 150px;
      float: left;
-     margin: 5px;
+     margin: 5px; */
      font-size: 3em;
+     font-weight: bolder;
+     font-style: italic;
      border: none;
  }
  #toggle_sound{
@@ -37,23 +79,6 @@
      display: flex;
      justify-content: space-evenly;
  }
- /* .left{
-     border: none;
-     border-right: 2px solid green;
-     border-top: 2px solid green;
-     border-bottom: 2px solid green;
- }
- .mid{
-     border: none;
-     border-left: 2px solid green;
-     border-right: 2px solid green;
- }
- .end{
-     border: none;
-     border-left: 2px solid green;
-     border-top: 2px solid green;
-     border-bottom: 2px solid green;
- } */
 
  #r0c0{
     border-right: 2px solid #ff6883;

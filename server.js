@@ -32,7 +32,7 @@ var viewers = []
 
 
 // When a client connects
-io.on("connection", function (socket) {
+io.of("/game").on("connection", function (socket) {
     let id = socket.id;
 
     clients[socket.id] = socket;
@@ -44,6 +44,7 @@ io.on("connection", function (socket) {
 
     if(socket.handshake.headers.referer === "http://localhost:5000/view") {
         viewers.push(socket)
+        socket.emit("new user", "New user Joined!!")
     } else {
 
         join(socket); // Fill 'players' data structure
@@ -57,7 +58,7 @@ io.on("connection", function (socket) {
 
             opponentOf(socket).emit("game.begin", { // Send the game.begin event to the opponent
                 symbol: players[opponentOf(socket).id].symbol,
-                username: players[socket.id].username,
+                username2: players[opponentOf(socket).id].username,
                 // username: players[opponentOf(socket).id].username
             });
         }
@@ -76,7 +77,24 @@ io.on("connection", function (socket) {
             opponentOf(socket).emit("move.made", data); // Emit for the opponent
             viewers.forEach(socket => {
                 socket.emit("move.made", data)
-            })
+            });
+        });
+        var spectators = io.of("/view")
+
+        //event to send happy reaction
+        socket.on("happy", (data)=>{
+            io.of("/game").emit("happy", data);
+        });
+        socket.on("love", (data)=>{
+            io.of("/game").emit("love", data);
+        });
+        socket.on("eyes", (data)=>{
+            io.of("/game").emit("eyes", data);
+        });
+
+        //event to send message
+        socket.on("message", (msg)=>{
+            socket.emit("message", msg);
         });
 
         // Event to inform player that the opponent left
@@ -86,6 +104,24 @@ io.on("connection", function (socket) {
             }
         });
     }
+});
+
+io.of("/view").on("connection", (spectator)=>{
+    //event to send happy reaction
+    spectator.on("happy", (data) => {
+        io.of("/game").emit("happy", data);
+    });
+    spectator.on("love", (data) => {
+        io.of("/game").emit("love", data);
+    });
+    spectator.on("eyes", (data) => {
+        io.of("/game").emit("eyes", data);
+    });
+
+    //event to send message
+    spectator.on("message", (msg) => {
+        io.of("/game").emit("message", msg);
+    });
 });
 
 

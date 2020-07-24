@@ -3,23 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Home</title>
+     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 </head>
 <body>
     <h1>Tic-Tac-Toe</h1>
     <div class="join">
         <form action="">
-            <input type="text" placeholder="username">
-            <a href="/game"><input type="button" value="create"></a>
+            <input type="text" placeholder="username" id="new_username" required>
+            <a href="/game" id="game_link"><input type="submit" value="create" id="create_game"></a>
         </form>
     </div>
     <div class="create">
         <form action="">
-            <input type="text" placeholder="username">
+            <input type="text" placeholder="username" id="join_username" required>
             <input type="text" placeholder="link">
-            <a href="/game"><input type="button" value="join"></a>
+            <a href="/game" id="game_link"><input type="submit" value="join" id="join_game"></a>
         </form>
     </div>
+    <p>View ongoing games: <a id="view" href="" ></a></p>
     <style>
         body{
             background-color: #03a9f4;
@@ -35,7 +37,7 @@
             padding: 20px;
             box-sizing: border-box;
         }
-        input[type=button]{
+        input[type=submit]{
             padding: 10px;
             background-color: #2c2ceb;
             color: #fff;
@@ -49,6 +51,31 @@
             font-size: 2.5em;
             font-weight: bold;
         }
+        #view{
+            color: #2c2ceb;
+        }
     </style>
+    <script>
+       const spectators = document.getElementById("view");
+       spectators.textContent = window.location.origin + "/view";
+       spectators.setAttribute("href", window.location.origin + "/view")
+        //input validation
+        const player1 = $("#new_username").val();
+        const player2 = $("#join_username").val();
+
+        //For user creating game
+        $("#new_username").on("change keyup paste", ()=>{
+            if($("#new_username").val().length > 0){
+                $("#game_link").attr("href", `${window.location.origin}/game?u=${$("#new_username").val()}`);
+                $("form").attr("action", `${window.location.origin}/game?u=${$("#new_username").val()}`);
+                console.log($("#game_link").attr("href"))
+            }
+        })
+
+        $("#game_link").on("click", (e)=>{
+            // e.preventDefault();
+        })
+
+    </script>
 </body>
 </html>

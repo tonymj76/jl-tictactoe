@@ -13,20 +13,36 @@
     <link rel="stylesheet" href="/index.css">
 </head>
 <body>
-
-    <div class="board">
-        <button id="r0c0" class="left"></button> 
-        <button id="r0c1" class="mid"></button> 
-        <button id="r0c2" class="end"></button>
-        <button id="r1c0" class="left"></button> 
-        <button id="r1c1" class="mid"></button> 
-        <button id="r1c2" class="end"></button>
-        <button id="r2c0" class="left"></button> 
-        <button id="r2c1" class="mid"></button> 
-        <button id="r2c2" class="end"></button>
-    </div>
-    <div class="controls">
-        <a id="toggle_sound">Toggle Sound</a>
+    <div id="message">Viewing as spectator <p><small>Join game</small></p> </div>
+    <div class="container">
+            <div class="board">
+                <button id="r0c0" class="left"></button>
+                <button id="r0c1" class="mid"></button>
+                <button id="r0c2" class="end"></button>
+                <button id="r1c0" class="left"></button>
+                <button id="r1c1" class="mid"></button>
+                <button id="r1c2" class="end"></button>
+                <button id="r2c0" class="left"></button>
+                <button id="r2c1" class="mid"></button>
+                <button id="r2c2" class="end"></button>
+            </div>
+            <div class="controls">
+                <a id="toggle_sound">Toggle Sound</a>
+            </div>
+            <div class="chat">
+                <div class="chat-window">
+                    <div class="output"></div>
+                </div>
+                <div class="message-box">
+                    <div class="content">
+                        <input type="text" class="message" id="chat-message">
+                        <input type="submit" class="submit" id="send" value="send">
+                        <span id="love">💓</span>
+                        <span id="happy">😀</span>
+                        <span id="eyes">👀</span>
+                    </div>
+                </div>
+            </div>
     </div>
     <script src="/view.js"></script>
     <script>
