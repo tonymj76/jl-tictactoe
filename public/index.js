@@ -174,7 +174,7 @@
     $("button").on("click", ()=>{
         clicked.play();
     });
-    $("#username").text(window.localStorage.getItem("usernameX"));
+    // $("#username").text(window.localStorage.getItem("usernameX"));
 
     //communication events
     $("#happy").on("click", ()=>{

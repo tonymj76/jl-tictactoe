@@ -1,7 +1,9 @@
 const express = require("express"),
             http = require("http"),
              socketIo = require("socket.io"),
-             fs = require("fs");
+             fs = require("fs"),
+             getUsername = require("./middleware/getUsername"),
+             ejs = require("ejs");
 
 
 const app = express();
@@ -13,12 +15,14 @@ const clients = {};
 app.use(express.static("public"));
 app.use(express.static("node_modules"));
 
-app.get("/", (req, res) => {
+app.get("/",(req, res) => {
     res.sendFile("home.html", { root: __dirname })
 });
-app.get("/game", (req, res) => {
-    const stream = fs.createReadStream(__dirname + "/index.html");
-    stream.pipe(res);
+
+app.get("/game", getUsername, (req, res) => {
+    // const stream = fs.createReadStream(__dirname + "/index.html");
+    // stream.pipe(res);
+    res.render("index.ejs", { data: req.data });
 });
 
 app.get("/view", (req, res) => {
@@ -28,7 +32,7 @@ app.get("/view", (req, res) => {
 
 var players = {}; // opponent: scoket.id of the opponent, symbol = "X" | "O", socket: player's socket
 var unmatched;
-var viewers = []
+var viewers = [];
 
 
 // When a client connects
